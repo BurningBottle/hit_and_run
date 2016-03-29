@@ -1,0 +1,24 @@
+# Unity created
+*.sqlsuo
+*.user
+*.log
+Library/
+Temp/
+*.userprefs
+*.orig
+*.csproj
+# Assembly-CSharp*.csproj
+# Assembly-UnityScript*.unityproj
+
+# Visual Studio created
+.vs/
+bin/
+obj/
+*.sln
+*.suo
+*_ReSharper.*
+*.pidb
+*.pdb
+
+# Other
+.DS_Store
