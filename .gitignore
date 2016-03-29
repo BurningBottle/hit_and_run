@@ -6,9 +6,8 @@ Library/
 Temp/
 *.userprefs
 *.orig
-*.csproj
-# Assembly-CSharp*.csproj
-# Assembly-UnityScript*.unityproj
+Assembly-CSharp*.csproj
+Assembly-UnityScript*.unityproj
 
 # Visual Studio created
 .vs/
