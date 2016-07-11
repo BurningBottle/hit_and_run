@@ -10,6 +10,7 @@ public class RunState : AbstractPlayerState
 
 	public override void OnEnter ()
 	{
+		player.ResetPath();
 		player.PlayAnimation ("Running(loop)");
 	}
 
@@ -22,11 +23,12 @@ public class RunState : AbstractPlayerState
 		}
 		else
 		{
-			var moveDir = new Vector3(joystickNormal.x, 0.0f, joystickNormal.y);
-			moveDir.Normalize();
-
-			var dest = player.transform.position + (moveDir * MyConst.playerMoveSpeed * Time.deltaTime);
-			player.transform.position = dest;
+			player.MoveByInputDirection(joystickNormal);
 		}
+	}
+
+	public override void OnEnd()
+	{
+		player.StopMove();
 	}
 }

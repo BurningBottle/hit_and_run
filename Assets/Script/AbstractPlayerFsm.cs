@@ -22,6 +22,12 @@ public abstract class AbstractPlayerFsm : MonoBehaviour
 		set;
 	}
 
+	private NavMeshAgent navMeshAgent
+	{
+		get;
+		set;
+	}
+
 //	StateName nextStateName = StateName.None;
 	AbstractPlayerState currentState = null;
 	Dictionary<StateName, AbstractPlayerState> stateMap = new Dictionary<StateName, AbstractPlayerState>();
@@ -30,7 +36,11 @@ public abstract class AbstractPlayerFsm : MonoBehaviour
 
 	virtual protected void Awake()
 	{
-		animator = GetComponent<Animator> ();		
+		animator = GetComponent<Animator> ();
+
+		navMeshAgent = GetComponent<NavMeshAgent>();
+		navMeshAgent.speed = MyConst.playerMoveSpeed;
+
 		InitState ();
 	}
 
@@ -98,5 +108,23 @@ public abstract class AbstractPlayerFsm : MonoBehaviour
 	void OnCallChangeFace(AnimationEvent animationEvent)
 	{
 		// for AnimationEvent
+	}
+
+	public void MoveByInputDirection(Vector2 inputDirection)
+	{
+		var moveDir = new Vector3(inputDirection.x, 0.0f, inputDirection.y);
+		moveDir.Normalize();
+
+		navMeshAgent.SetDestination(transform.position + (moveDir * MyConst.playerMoveSpeed));
+	}
+
+	public void StopMove()
+	{
+		navMeshAgent.Stop();
+	}
+
+	public void ResetPath()
+	{
+		navMeshAgent.ResetPath();
 	}
 }
