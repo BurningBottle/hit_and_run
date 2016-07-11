@@ -134,7 +134,7 @@ public class VirtualJoystickRegion : MonoBehaviour {
 				{
 					ResetJoystick();
 				}
-				Debug.Log("Joystick Axis:: " + VJRnormals); //<-- Delete this line | (X,Y), from -1.0 to +1.0 | Use this value "VJRnormals" in your scripts.
+				//Debug.Log("Joystick Axis:: " + VJRnormals); //<-- Delete this line | (X,Y), from -1.0 to +1.0 | Use this value "VJRnormals" in your scripts.
 			}
 
 			if (!gotPosition && Input.GetMouseButton(0) && fingerID == -1 && tapTimer <= 0)

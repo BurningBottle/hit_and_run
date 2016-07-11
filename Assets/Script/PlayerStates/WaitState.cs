@@ -13,15 +13,9 @@ public class WaitState : AbstractPlayerState
 		player.PlayAnimation ("Standing(loop)");
 	}
 
-	float elapsedTime = 0.0f;
-
 	public override void Update ()
 	{
-		elapsedTime += Time.deltaTime;
-		if (elapsedTime >= 1.0f) 
-		{
-			elapsedTime = 0.0f;
-			player.GotoState (StateName.Run);
-		}
+		if (VirtualJoystickRegion.VJRnormals.magnitude > 0.0f)
+			player.GotoState(StateName.Run);
 	}
 }

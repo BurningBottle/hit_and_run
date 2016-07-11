@@ -13,15 +13,20 @@ public class RunState : AbstractPlayerState
 		player.PlayAnimation ("Running(loop)");
 	}
 
-	float elapsedTime;
-
 	public override void Update ()
 	{
-		elapsedTime += Time.deltaTime;
-		if (elapsedTime >= 1.0f) 
+		var joystickNormal = VirtualJoystickRegion.VJRnormals;
+        if (joystickNormal.magnitude == 0.0f) 
 		{
-			elapsedTime = 0.0f;
 			player.GotoState (StateName.Wait);
+		}
+		else
+		{
+			var moveDir = new Vector3(joystickNormal.x, 0.0f, joystickNormal.y);
+			moveDir.Normalize();
+
+			var dest = player.transform.position + (moveDir * MyConst.playerMoveSpeed * Time.deltaTime);
+			player.transform.position = dest;
 		}
 	}
 }
