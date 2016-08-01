@@ -7,6 +7,7 @@ public class RemotePlayer : AbstractPlayerFsm
 	{
 		AddState (new RemoteWaitState ());
 		AddState (new RemoteRunState ());
+		AddState (new HitState ());
 
 		GotoState (StateName.Wait);
 	}	

@@ -82,6 +82,11 @@ public abstract class AbstractPlayerFsm : MonoBehaviour
 		currentState = newState;
 	}
 
+	public bool IsState(StateName stateName)
+	{
+		return currentStateName == stateName;
+	}
+
 //	public void GotoState(StateName stateName)
 //	{
 //		nextStateName = stateName;
@@ -105,6 +110,17 @@ public abstract class AbstractPlayerFsm : MonoBehaviour
 		animator.Play (animationName, 1);
 	}
 
+	public bool IsAnimationEnded()
+	{
+		var info = animator.GetCurrentAnimatorStateInfo (0);
+		return info.normalizedTime >= info.length;
+	}
+
+	public AnimatorStateInfo GetCurrentAnimatorStateInfo()
+	{
+		return animator.GetCurrentAnimatorStateInfo (0);
+	}
+
 	void OnCallChangeFace(AnimationEvent animationEvent)
 	{
 		// for AnimationEvent
@@ -126,5 +142,14 @@ public abstract class AbstractPlayerFsm : MonoBehaviour
 	public void ResetPath()
 	{
 		navMeshAgent.ResetPath();
+	}
+
+	// By missiles or DamageBlocks, called by SendMessage.
+	void OnHit()
+	{
+		if (IsState (StateName.Hit))
+			return;
+
+		GotoState (StateName.Hit);
 	}
 }

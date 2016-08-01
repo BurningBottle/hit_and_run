@@ -6,8 +6,6 @@ public class DamageBlock : MonoBehaviour
 	public GameObject root;
 	public Transform marker;
 
-	const float FALL_TIME = 1.0f;
-
 	float elapsedFrame = 0.0f;
 	Vector3 originMarkerScale;
 	Vector3 originPosition;
@@ -24,7 +22,7 @@ public class DamageBlock : MonoBehaviour
 	void Update () 
 	{
 		elapsedFrame += Time.deltaTime;	
-		float t = Mathf.Min (1.0f, elapsedFrame / FALL_TIME);
+		float t = Mathf.Min (1.0f, elapsedFrame / MyConst.blockFallTime);
 		transform.position = Vector3.Lerp (originPosition, destPosition, t);
 		marker.localScale = Vector3.Lerp (originMarkerScale, Vector3.one * 0.2f, t);
 	}
@@ -40,7 +38,7 @@ public class DamageBlock : MonoBehaviour
 		var collidedLayer = LayerMask.LayerToName (other.gameObject.layer);
 		if (string.Equals ("Terrain", collidedLayer))
 			GameObject.Destroy (root);
-//		else
-//			Debug.Log ("OnTriggerEnter = Layer: " + collidedLayer);
+		else if (string.Equals ("Player", collidedLayer))
+			other.SendMessage ("OnHit");
 	}
 }

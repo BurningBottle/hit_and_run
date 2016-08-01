@@ -7,7 +7,6 @@ public class BlockManager : MonoBehaviour
 	public GameObject blockPrefab;
 
 	const int N = 16;
-	const float INTERVAL = 0.8f;
 
 	Coroutine generateRoutine = null;
 	float unitX;
@@ -49,7 +48,7 @@ public class BlockManager : MonoBehaviour
 			previousIndexX = indexX;
 			previousIndexZ = indexZ;
 
-			yield return new WaitForSeconds (INTERVAL);
+			yield return new WaitForSeconds (MyConst.blockCreationInterval);
 		}
 	}
 

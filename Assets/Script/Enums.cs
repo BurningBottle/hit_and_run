@@ -15,4 +15,6 @@ public enum StateName
 public static class MyConst
 {
 	public const float playerMoveSpeed = 3.0f;
+	public const float blockFallTime = 0.7f;
+	public const float blockCreationInterval = 0.4f;
 }

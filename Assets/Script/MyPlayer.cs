@@ -7,6 +7,7 @@ public class MyPlayer : AbstractPlayerFsm
 	{
 		AddState (new WaitState ());
 		AddState (new RunState ());
+		AddState (new HitState ());
 
 		GotoState (StateName.Wait);
 	}	
