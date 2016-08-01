@@ -37,6 +37,8 @@ GameObject:
   - 33: {fileID: 33000010222491624}
   - 65: {fileID: 65000013008395194}
   - 23: {fileID: 23000014197461760}
+  - 114: {fileID: 114000012150302800}
+  - 54: {fileID: 54000013128536230}
   m_Layer: 11
   m_Name: Block
   m_TagString: Untagged
@@ -53,7 +55,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000010224212364}
   - 33: {fileID: 33000010458696872}
-  - 64: {fileID: 64000014108466252}
   - 23: {fileID: 23000011992934778}
   m_Layer: 11
   m_Name: Marker
@@ -175,18 +176,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013141691884}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &64000014108466252
-MeshCollider:
+--- !u!54 &54000013128536230
+Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013141691884}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
+  m_GameObject: {fileID: 1000010800485454}
   serializedVersion: 2
-  m_Convex: 0
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!65 &65000013008395194
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -194,8 +198,21 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010800485454}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114000012150302800
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010800485454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2b8fe4890a1d40818f478deae34f1eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  root: {fileID: 1000010155332654}
+  marker: {fileID: 4000010224212364}

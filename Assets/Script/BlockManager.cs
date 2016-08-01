@@ -7,7 +7,7 @@ public class BlockManager : MonoBehaviour
 	public GameObject blockPrefab;
 
 	const int N = 16;
-	const float INTERVAL = 1.2f;
+	const float INTERVAL = 0.8f;
 
 	Coroutine generateRoutine = null;
 	float unitX;
