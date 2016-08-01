@@ -9,6 +9,8 @@ public class RemotePlayer : AbstractPlayerFsm
 		AddState (new RemoteRunState ());
 		AddState (new HitState ());
 
+		GameObject.Destroy(GetComponentInChildren<BlockTrigger> ());
+
 		GotoState (StateName.Wait);
 	}	
 }

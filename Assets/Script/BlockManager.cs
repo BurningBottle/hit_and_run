@@ -4,7 +4,8 @@ using System.Collections;
 public class BlockManager : MonoBehaviour 
 {
 	public Transform baseTransform;
-	public GameObject blockPrefab;
+	public GameObject damageBlockPrefab;
+	public GameObject missileBlockPrefab;
 
 	const int N = 16;
 
@@ -41,6 +42,13 @@ public class BlockManager : MonoBehaviour
 			} while(indexX == previousIndexX && indexZ == previousIndexZ);
 
 			Vector3 blockPosition = new Vector3 (transform.position.x + unitX * indexX, transform.position.y + 0.1f, transform.position.z + unitZ * indexZ);
+
+			GameObject blockPrefab = null;
+			if (UnityEngine.Random.Range (0, 10000) <= MyConst.missileBlockRate)
+				blockPrefab = missileBlockPrefab;
+			else
+				blockPrefab = damageBlockPrefab;
+			
 			GameObject.Instantiate (blockPrefab, blockPosition, Quaternion.identity);
 
 			//Debug.Log ("Block Index (" + indexX + "," + indexZ + ")");

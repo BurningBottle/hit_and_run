@@ -19,8 +19,8 @@ TagManager:
   - Block
   - Missile
   - EnemyMissile
-  - 
-  - 
+  - MissileBlock
+  - PlayerTrigger
   - 
   - 
   - 
