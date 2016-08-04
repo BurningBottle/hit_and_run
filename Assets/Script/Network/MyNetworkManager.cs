@@ -41,7 +41,7 @@ public class MyNetworkManager : MonoBehaviour
 		GameObject.DontDestroyOnLoad(gameObject);
 
 		transTcp.RegisterEventHandler(OnNetworkEvent);
-		port = 8000;
+		port = 25331;
     }
 
 	void OnDestroy()

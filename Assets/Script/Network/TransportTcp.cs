@@ -64,6 +64,7 @@ public class TransportTcp
 		socket.NoDelay = true;
 		socket.Connect(address, port);
 		socket.SendBufferSize = 0;
+
 		isConnected = true;
 
 		if (eventHandler != null)
