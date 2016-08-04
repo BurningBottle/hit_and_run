@@ -16,6 +16,8 @@ public class LobbyUIManager : MonoBehaviour
 		mainButtons.SetActive(false);
 		serverSideObjects.SetActive(true);
 		myIpText.text = "IP : " + Network.player.ipAddress;
+
+		MyNetworkManager.instance.StartServer();
     }
 
 	public void OnClickJoin()
@@ -26,6 +28,6 @@ public class LobbyUIManager : MonoBehaviour
 
 	public void OnClickConfirmJoin()
 	{
-		Debug.Log("Confirm to IP(" + ipInputField.text + ")");
+		MyNetworkManager.instance.Connect(ipInputField.text);
 	}
 }

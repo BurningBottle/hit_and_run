@@ -74,6 +74,10 @@
     <Compile Include="Assets\Script\Missile.cs" />
     <Compile Include="Assets\Script\MissileBlock.cs" />
     <Compile Include="Assets\Script\MyPlayer.cs" />
+    <Compile Include="Assets\Script\Network\MyNetworkManager.cs" />
+    <Compile Include="Assets\Script\Network\NetworkDef.cs" />
+    <Compile Include="Assets\Script\Network\PacketQueue.cs" />
+    <Compile Include="Assets\Script\Network\TransportTcp.cs" />
     <Compile Include="Assets\Script\PlayerStates\HitState.cs" />
     <Compile Include="Assets\Script\PlayerStates\RemoteRunState.cs" />
     <Compile Include="Assets\Script\PlayerStates\RemoteWaitState.cs" />
