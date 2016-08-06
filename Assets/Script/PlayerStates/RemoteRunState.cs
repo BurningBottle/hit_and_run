@@ -20,11 +20,17 @@ public class RemoteRunState : AbstractPlayerState
 
 	public override void OnEnter ()
 	{
+		player.ResetPath();
 		player.PlayAnimation ("Running(loop)");
 	}
 
 	public override void Update ()
 	{
 		player.MoveByInputDirection(remoteKeyNormal);
+	}
+
+	public override void OnEnd()
+	{
+		player.StopMove();
 	}
 }
