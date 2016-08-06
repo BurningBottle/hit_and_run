@@ -15,6 +15,17 @@ public class GameManager : MonoBehaviour
 	void Awake()
 	{
 		GameManager.instance = this;
+		myPlayerIndex = MyNetworkManager.instance.isServer ? 0 : 1;
+    }
+
+	void Start()
+	{
+		if(!MyNetworkManager.instance.isServer)
+		{
+			var packetData = new LoadingCompleteData();
+			packetData.playerId = myPlayerIndex;
+			MyNetworkManager.instance.SendReliable(new LoadingCompletePacket(packetData));
+		}
 	}
 
 	void OnDestroy()

@@ -67,10 +67,10 @@ public class TransportTcp
 
 		isConnected = true;
 
+		LaunchThread();
+
 		if (eventHandler != null)
 			eventHandler(new NetEventState(NetEventType.Connect, NetEventResult.Success));
-
-		LaunchThread();
 
 		return true;
 	}
