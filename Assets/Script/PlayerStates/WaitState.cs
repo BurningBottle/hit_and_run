@@ -16,6 +16,13 @@ public class WaitState : AbstractPlayerState
 	public override void Update ()
 	{
 		if (VirtualJoystickRegion.VJRnormals.magnitude > 0.0f)
+		{
+			var packetData = new RunStartData();
+			packetData.isStart = true;
+			packetData.position = player.transform.position;
+			MyNetworkManager.instance.SendReliable(new RunStartPacket(packetData));
+
 			player.GotoState(StateName.Run);
+		}
 	}
 }

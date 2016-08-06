@@ -3,9 +3,19 @@ using System.Collections;
 
 public class RemoteRunState : AbstractPlayerState 
 {
+	Vector2 remoteKeyNormal;
+
 	protected override void InitName ()
 	{
 		name = StateName.Run;
+
+		MyNetworkManager.instance.RegisterReceiveNotifier(PacketId.KeyInput, OnKeyInput);		
+	}
+
+	void OnKeyInput(byte[] data)
+	{
+		var packetData = new KeyInputPacket(data);
+		remoteKeyNormal = packetData.GetPacket().keyNormal;
 	}
 
 	public override void OnEnter ()
@@ -13,15 +23,8 @@ public class RemoteRunState : AbstractPlayerState
 		player.PlayAnimation ("Running(loop)");
 	}
 
-	float elapsedTime;
-
 	public override void Update ()
 	{
-		elapsedTime += Time.deltaTime;
-		if (elapsedTime >= 1.5f) 
-		{
-			elapsedTime = 0.0f;
-			player.GotoState (StateName.Wait);
-		}
+		player.MoveByInputDirection(remoteKeyNormal);
 	}
 }

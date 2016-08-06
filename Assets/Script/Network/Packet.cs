@@ -43,6 +43,8 @@ public enum PacketId
 {
 	LoadingComplete,
 	GameStart,
+	RunStart,
+	KeyInput,
 }
 
 public struct PacketHeader
@@ -208,3 +210,162 @@ public class GameStartPacket : IPacket<GameStartData>
 	}
 }
 
+public struct RunStartData
+{
+	public bool isStart;
+	public Vector3 position;
+}
+
+public class RunStartPacket : IPacket<RunStartData>
+{
+	class ItemSerializer : Serializer
+	{
+		//
+		public bool Serialize(RunStartData packet)
+		{
+			bool ret = true;
+			ret &= Serialize(packet.isStart);
+			ret &= Serialize(packet.position.x);
+			ret &= Serialize(packet.position.y);
+			ret &= Serialize(packet.position.z);
+
+			return ret;
+		}
+
+		//
+		public bool Deserialize(ref RunStartData element)
+		{
+			if (GetDataSize() == 0)
+			{
+				// 데이터가 설정되어 있지 않습니다.
+				return false;
+			}
+
+			bool ret = true;
+			ret &= Deserialize(ref element.isStart);
+
+			element.position = new Vector3();
+
+			ret &= Deserialize(ref element.position.x);
+			ret &= Deserialize(ref element.position.y);
+			ret &= Deserialize(ref element.position.z);
+
+			return ret;
+		}
+	}
+
+	// 패킷 데이터의 실체.
+	RunStartData m_packet;
+
+	// 패킷 데이터를 시리얼라이즈 하는 생성자.
+	public RunStartPacket(RunStartData data)
+	{
+		m_packet = data;
+	}
+
+	// 바이너리 데이터를 패킷 데이터로 디시리얼라이즈 하는 생성자. 
+	public RunStartPacket(byte[] data)
+	{
+		ItemSerializer serializer = new ItemSerializer();
+
+		serializer.SetDeserializedData(data);
+		serializer.Deserialize(ref m_packet);
+	}
+
+	public PacketId GetPacketId()
+	{
+		return PacketId.RunStart;
+	}
+
+	// 게임에서 사용할 패킷 데이터를 획득.
+	public RunStartData GetPacket()
+	{
+		return m_packet;
+	}
+
+	// 송신용 byte[]형 데이터를 획득.
+	public byte[] GetData()
+	{
+		ItemSerializer serializer = new ItemSerializer();
+		serializer.Serialize(m_packet);
+
+		return serializer.GetSerializedData();
+	}
+}
+
+public struct KeyInputData
+{
+	public Vector2 keyNormal;
+}
+
+public class KeyInputPacket : IPacket<KeyInputData>
+{
+	class ItemSerializer : Serializer
+	{
+		//
+		public bool Serialize(KeyInputData packet)
+		{
+			bool ret = true;
+			ret &= Serialize(packet.keyNormal.x);
+			ret &= Serialize(packet.keyNormal.y);
+
+			return ret;
+		}
+
+		//
+		public bool Deserialize(ref KeyInputData element)
+		{
+			if (GetDataSize() == 0)
+			{
+				// 데이터가 설정되어 있지 않습니다.
+				return false;
+			}
+
+			bool ret = true;
+			element.keyNormal = new Vector2();
+
+			ret &= Deserialize(ref element.keyNormal.x);
+			ret &= Deserialize(ref element.keyNormal.y);
+
+			return ret;
+		}
+	}
+
+	// 패킷 데이터의 실체.
+	KeyInputData m_packet;
+
+	// 패킷 데이터를 시리얼라이즈 하는 생성자.
+	public KeyInputPacket(KeyInputData data)
+	{
+		m_packet = data;
+	}
+
+	// 바이너리 데이터를 패킷 데이터로 디시리얼라이즈 하는 생성자. 
+	public KeyInputPacket(byte[] data)
+	{
+		ItemSerializer serializer = new ItemSerializer();
+
+		serializer.SetDeserializedData(data);
+		serializer.Deserialize(ref m_packet);
+	}
+
+	public PacketId GetPacketId()
+	{
+		return PacketId.KeyInput;
+	}
+
+	// 게임에서 사용할 패킷 데이터를 획득.
+	public KeyInputData GetPacket()
+	{
+		return m_packet;
+	}
+
+	// 송신용 byte[]형 데이터를 획득.
+	public byte[] GetData()
+	{
+		ItemSerializer serializer = new ItemSerializer();
+		serializer.Serialize(m_packet);
+
+		return serializer.GetSerializedData();
+	}
+}

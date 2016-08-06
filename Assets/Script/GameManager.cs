@@ -48,6 +48,8 @@ public class GameManager : MonoBehaviour
 		{
 			MyNetworkManager.instance.OnGameSceneLoadComplete(null);
 		}
+
+		StartGame((int)System.DateTime.Now.Ticks);
 	}
 
 	void OnDestroy()
