@@ -10,7 +10,7 @@ public class RemotePlayer : AbstractPlayerFsm
 		AddState (new HitState ());
 
 		gameObject.layer = LayerMask.NameToLayer("Enemy");
-		GameObject.Destroy(GetComponentInChildren<BlockTrigger> ());
+		GameObject.Destroy(GetComponentInChildren<BlockTrigger> ().gameObject);
 
 		GotoState (StateName.Wait);
 	}	
