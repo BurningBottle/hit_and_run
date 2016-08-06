@@ -8,15 +8,33 @@ public class GameManager : MonoBehaviour
 	public GameObject playerA;
 	public GameObject playerB;
 	public GameObject missilePrefab;
+	public GameObject virtualStick;
+	public BlockManager[] blockManagers;
 
 	[HideInInspector]
 	public int myPlayerIndex = 0;
 
+	MyPlayer myPlayer;
+	RemotePlayer enemyPlayer;
+
 	void Awake()
 	{
 		GameManager.instance = this;
-		myPlayerIndex = MyNetworkManager.instance.isServer ? 0 : 1;
-    }
+		MyNetworkManager.instance.RegisterReceiveNotifier(PacketId.GameStart, OnStartGame);
+
+		if(MyNetworkManager.instance.isServer)
+		{
+			myPlayerIndex = 0;
+			myPlayer = playerA.AddComponent<MyPlayer>();
+			enemyPlayer = playerB.AddComponent<RemotePlayer>();
+		}
+		else
+		{
+			myPlayerIndex = 1;
+			myPlayer = playerB.AddComponent<MyPlayer>();
+			enemyPlayer = playerA.AddComponent<RemotePlayer>();
+		}
+	}
 
 	void Start()
 	{
@@ -26,11 +44,43 @@ public class GameManager : MonoBehaviour
 			packetData.playerId = myPlayerIndex;
 			MyNetworkManager.instance.SendReliable(new LoadingCompletePacket(packetData));
 		}
+		else
+		{
+			MyNetworkManager.instance.OnGameSceneLoadComplete(null);
+		}
 	}
 
 	void OnDestroy()
 	{
 		GameManager.instance = null;
+	}
+
+	public void ReadyToStartGame()
+	{
+		var packetData = new GameStartData();
+		packetData.randomSeed = (int)System.DateTime.Now.Ticks;
+
+		StartGame(packetData.randomSeed);
+	}
+
+	void OnStartGame(byte[] data)
+	{
+		var packet = new GameStartPacket(data);
+		StartGame(packet.GetPacket().randomSeed);
+	}
+
+	void StartGame(int randomSeed)
+	{
+		UnityEngine.Random.InitState(randomSeed);
+		Invoke("GenerateBlocks", 0.5f);
+	}
+
+	void GenerateBlocks()
+	{
+		foreach(var blockManager in blockManagers)
+			blockManager.Generate();
+
+		virtualStick.SetActive(true);
 	}
 
 	public void CreateMissile(Vector3 start, bool isMyMissile)
@@ -49,11 +99,11 @@ public class GameManager : MonoBehaviour
 
 	public Vector3 GetMyPosition()
 	{
-		return (myPlayerIndex == 0) ? playerA.transform.position : playerB.transform.position;
+		return myPlayer.transform.position;
 	}
 
 	public Vector3 GetEnemyPosition()
 	{
-		return (myPlayerIndex == 0) ? playerB.transform.position : playerA.transform.position;
+		return enemyPlayer.transform.position;
 	}
 }

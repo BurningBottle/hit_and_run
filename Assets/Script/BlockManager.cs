@@ -20,8 +20,6 @@ public class BlockManager : MonoBehaviour
 		transform.position = baseTransform.position + new Vector3 (0.0f, baseTransform.localScale.y * 0.5f, 0.0f);
 		unitX = baseTransform.localScale.x / (float)N;
 		unitZ = baseTransform.localScale.z / (float)N;
-
-		Generate ();	
 	}
 
 	public void Generate()

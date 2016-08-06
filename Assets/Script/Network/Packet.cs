@@ -135,3 +135,76 @@ public class LoadingCompletePacket : IPacket<LoadingCompleteData>
 	}
 }
 
+public struct GameStartData
+{
+	public int randomSeed;
+}
+
+public class GameStartPacket : IPacket<GameStartData>
+{
+	class ItemSerializer : Serializer
+	{
+		//
+		public bool Serialize(GameStartData packet)
+		{
+			bool ret = true;
+			ret &= Serialize(packet.randomSeed);
+
+			return ret;
+		}
+
+		//
+		public bool Deserialize(ref GameStartData element)
+		{
+			if (GetDataSize() == 0)
+			{
+				// 데이터가 설정되어 있지 않습니다.
+				return false;
+			}
+
+			bool ret = true;
+			ret &= Deserialize(ref element.randomSeed);
+
+			return ret;
+		}
+	}
+
+	// 패킷 데이터의 실체.
+	GameStartData m_packet;
+
+	// 패킷 데이터를 시리얼라이즈 하는 생성자.
+	public GameStartPacket(GameStartData data)
+	{
+		m_packet = data;
+	}
+
+	// 바이너리 데이터를 패킷 데이터로 디시리얼라이즈 하는 생성자. 
+	public GameStartPacket(byte[] data)
+	{
+		ItemSerializer serializer = new ItemSerializer();
+
+		serializer.SetDeserializedData(data);
+		serializer.Deserialize(ref m_packet);
+	}
+
+	public PacketId GetPacketId()
+	{
+		return PacketId.GameStart;
+	}
+
+	// 게임에서 사용할 패킷 데이터를 획득.
+	public GameStartData GetPacket()
+	{
+		return m_packet;
+	}
+
+	// 송신용 byte[]형 데이터를 획득.
+	public byte[] GetData()
+	{
+		ItemSerializer serializer = new ItemSerializer();
+		serializer.Serialize(m_packet);
+
+		return serializer.GetSerializedData();
+	}
+}
+

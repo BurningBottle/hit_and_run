@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44692534, g: 0.49678725, b: 0.57508564, a: 1}
+  m_IndirectSpecularColor: {r: 0.44692492, g: 0.4967869, b: 0.57508546, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -1527,7 +1527,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &356533916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1702,6 +1702,10 @@ MonoBehaviour:
   playerB: {fileID: 1166000663}
   missilePrefab: {fileID: 1000012460756370, guid: cf85d2c1cc46f49bda93c7f8bf2ea3a6,
     type: 2}
+  virtualStick: {fileID: 0}
+  blockManagers:
+  - {fileID: 2034990997}
+  - {fileID: 2130055166}
   myPlayerIndex: 0
 --- !u!4 &395010188
 Transform:
@@ -4942,7 +4946,6 @@ GameObject:
   - 4: {fileID: 1166000667}
   - 95: {fileID: 1166000666}
   - 195: {fileID: 1166000665}
-  - 114: {fileID: 1166000664}
   - 136: {fileID: 1166000669}
   - 54: {fileID: 1166000668}
   m_Layer: 10
@@ -4952,17 +4955,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1166000664
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1166000663}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f166a788faf74abe883eb87e5acad2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!195 &1166000665
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -7682,7 +7674,6 @@ GameObject:
   - 4: {fileID: 1722725657}
   - 95: {fileID: 1722725656}
   - 195: {fileID: 1722725658}
-  - 114: {fileID: 1722725655}
   - 136: {fileID: 1722725660}
   - 54: {fileID: 1722725659}
   m_Layer: 9
@@ -7692,17 +7683,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1722725655
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1722725654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3180f740595b463aa48604a8cf65f4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!95 &1722725656
 Animator:
   serializedVersion: 3

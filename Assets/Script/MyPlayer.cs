@@ -9,6 +9,9 @@ public class MyPlayer : AbstractPlayerFsm
 		AddState (new RunState ());
 		AddState (new HitState ());
 
+		gameObject.layer = LayerMask.NameToLayer("Player");
+		GetComponentInChildren<BlockTrigger>().gameObject.layer = LayerMask.NameToLayer("Player");
+
 		GotoState (StateName.Wait);
 	}	
 }

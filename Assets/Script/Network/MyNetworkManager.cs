@@ -22,6 +22,7 @@ public class MyNetworkManager : MonoBehaviour
 
 	State managerState = State.WaitForConnect;
 	Dictionary<PacketId, RecvNotifier> notifierTable = new Dictionary<PacketId, RecvNotifier>();
+	int loadingCompleteCount = 0;
 
 	public string serverAddress
 	{
@@ -56,13 +57,26 @@ public class MyNetworkManager : MonoBehaviour
 		MyNetworkManager.instance = this;
 		GameObject.DontDestroyOnLoad(gameObject);
 
-		transTcp.RegisterEventHandler(OnNetworkEvent);
+		transTcp.RegisterEventHandler(OnNetworkConnect);
 		port = 25331;
+
+		InitReceiveNotifiers();
     }
 
 	void OnDestroy()
 	{
 		MyNetworkManager.instance = null;
+	}
+
+	void InitReceiveNotifiers()
+	{
+		notifierTable.Clear();
+		RegisterReceiveNotifier(PacketId.LoadingComplete, OnGameSceneLoadComplete);
+	}
+
+	public void RegisterReceiveNotifier(PacketId packetId, RecvNotifier notifier)
+	{
+		notifierTable.Add(packetId, notifier);
 	}
 
 	public void StartServer()
@@ -88,7 +102,7 @@ public class MyNetworkManager : MonoBehaviour
 		}
 	}
 
-	void OnNetworkEvent(NetEventState state)
+	void OnNetworkConnect(NetEventState state)
 	{
 		switch(state.type)
 		{
@@ -139,9 +153,7 @@ public class MyNetworkManager : MonoBehaviour
 		if (notifierTable.ContainsKey(header.packetId))
 			notifierTable[header.packetId](packetData);
 
-		var packetSerializer = new LoadingCompletePacket(packetData);
-
-		Debug.Log("RecvPacket : [" + header.packetId + "] " + packetSerializer.GetPacket().playerId);
+//		Debug.Log("RecvPacket : [" + header.packetId + "] " + packetSerializer.GetPacket().playerId);
     }
 
 	public int SendReliable<T>(IPacket<T> packet)
@@ -168,8 +180,14 @@ public class MyNetworkManager : MonoBehaviour
 
 		sendSize = transTcp.Send(data, data.Length);
 
-		Debug.Log("SendPacket : [" + packet.GetPacketId() + "]");
+//		Debug.Log("SendPacket : [" + packet.GetPacketId() + "]");
 
 		return sendSize;
+	}
+
+	public void OnGameSceneLoadComplete(byte[] data)
+	{
+		if(++loadingCompleteCount == 2)
+			GameManager.instance.ReadyToStartGame();
 	}
 }
