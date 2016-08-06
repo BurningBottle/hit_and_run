@@ -59,6 +59,7 @@ public class GameManager : MonoBehaviour
 	{
 		var packetData = new GameStartData();
 		packetData.randomSeed = (int)System.DateTime.Now.Ticks;
+		MyNetworkManager.instance.SendReliable(new GameStartPacket(packetData));
 
 		StartGame(packetData.randomSeed);
 	}
