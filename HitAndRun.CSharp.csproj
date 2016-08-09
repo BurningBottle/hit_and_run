@@ -81,6 +81,7 @@
     <Compile Include="Assets\Script\Network\Serializer.cs" />
     <Compile Include="Assets\Script\Network\TransportTcp.cs" />
     <Compile Include="Assets\Script\PlayerStates\HitState.cs" />
+    <Compile Include="Assets\Script\PlayerStates\RemoteHitState.cs" />
     <Compile Include="Assets\Script\PlayerStates\RemoteRunState.cs" />
     <Compile Include="Assets\Script\PlayerStates\RemoteWaitState.cs" />
     <Compile Include="Assets\Script\PlayerStates\RunState.cs" />

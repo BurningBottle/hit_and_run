@@ -835,6 +835,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc14bd8192d5c4ba992834fc9bc59ca4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMine: 1
 --- !u!135 &240360606
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -845,7 +846,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 0.75
   m_Center: {x: 0, y: 0.4, z: 0}
 --- !u!1 &240421313
 GameObject:
@@ -8985,6 +8986,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc14bd8192d5c4ba992834fc9bc59ca4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMine: 1
 --- !u!135 &2047226158
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -8995,7 +8997,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 0.75
   m_Center: {x: 0, y: 0.4, z: 0}
 --- !u!1 &2055548104
 GameObject:

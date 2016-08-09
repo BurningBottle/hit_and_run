@@ -7,12 +7,14 @@ public class RemotePlayer : AbstractPlayerFsm
 	{
 		AddState (new RemoteWaitState ());
 		AddState (new RemoteRunState ());
-		AddState (new HitState ());
+		AddState (new RemoteHitState ());
 
 		gameObject.layer = LayerMask.NameToLayer("Enemy");
-		GameObject.Destroy(GetComponentInChildren<BlockTrigger> ().gameObject);
+		//		GameObject.Destroy(GetComponentInChildren<BlockTrigger> ().gameObject);
+		GetComponentInChildren<BlockTrigger>().isMine = false;
 
 		MyNetworkManager.instance.RegisterReceiveNotifier(PacketId.RunStart, OnRunStart);
+		MyNetworkManager.instance.RegisterReceiveNotifier(PacketId.Hit, OnReceiveHit);
 
 		GotoState (StateName.Wait);
 	}	
@@ -27,5 +29,16 @@ public class RemotePlayer : AbstractPlayerFsm
 		transform.position = packet.position;
 
 		GotoState(packet.isStart ? StateName.Run : StateName.Wait);
+	}
+
+	void OnReceiveHit(byte[] data)
+	{
+		if (IsState(StateName.Die))
+			return;
+
+		var packetData = new HitPacket(data);
+		transform.position = packetData.GetPacket().position;
+
+		GotoState(StateName.Hit);
 	}
 }

@@ -26,9 +26,8 @@ public class Missile : MonoBehaviour
 	void OnTriggerEnter(Collider other)
 	{
 		if(string.Equals("Player", LayerMask.LayerToName(other.gameObject.layer)))
-		{
 			other.SendMessage("OnHit");
-			DestroySelf();
-		}
+
+		DestroySelf();
 	}
 }

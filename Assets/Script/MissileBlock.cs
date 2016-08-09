@@ -11,7 +11,6 @@ public class MissileBlock : MonoBehaviour
 	Vector3 originPosition;
 	Vector3 destPosition;
 	bool isFalling = true;
-	BlockTrigger connectedTrigger;
 
 	void Start () 
 	{
@@ -34,12 +33,7 @@ public class MissileBlock : MonoBehaviour
 		else 
 		{
 			if (elapsedFrame >= MyConst.missileBlockLife) 
-			{
-				if (connectedTrigger != null)
-					connectedTrigger.RemoveBlock (GetComponent<BoxCollider>());
-
 				GameObject.Destroy (root);
-			}
 		}
 	}
 
@@ -53,18 +47,7 @@ public class MissileBlock : MonoBehaviour
 		{
 			isFalling = false;
 			elapsedFrame = 0.0f;
-			GetComponent<MeshRenderer> ().sharedMaterial.color = Color.blue;
 		}
-	}
-
-	void OnBlockTriggerEnter(BlockTrigger trigger)
-	{
-		connectedTrigger = trigger;
-	}
-
-	void OnBlockTriggerExit(BlockTrigger trigger)
-	{
-		connectedTrigger = null;
 	}
 
 	void OnMissileShoot()

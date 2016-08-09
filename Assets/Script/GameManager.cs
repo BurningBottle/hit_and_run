@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
 	{
 		GameManager.instance = this;
 		MyNetworkManager.instance.RegisterReceiveNotifier(PacketId.GameStart, OnStartGame);
+		MyNetworkManager.instance.RegisterReceiveNotifier(PacketId.ShotMissile, OnReceiveShotMissile);
 
 		if(MyNetworkManager.instance.isServer)
 		{
@@ -86,18 +87,40 @@ public class GameManager : MonoBehaviour
 		virtualStick.SetActive(true);
 	}
 
-	public void CreateMissile(Vector3 start, bool isMyMissile)
+	public void CreateMissileByMe(Vector3 start)
 	{
-		Vector3 dest = isMyMissile ? GetEnemyPosition () : GetMyPosition ();
+		Vector3 dest = GetEnemyPosition ();
 		dest.y += 0.5f;
 		start.y = dest.y;
 
-		var missileObject = (GameObject)GameObject.Instantiate (missilePrefab, start, Quaternion.identity); 
-		var layerName = isMyMissile ? "Missile" : "EnemyMissile";
+		var packetData = new ShotMissileData();
+		packetData.from = start;
+		packetData.dest = dest;
+		MyNetworkManager.instance.SendReliable(new ShotMissilePacket(packetData));
+
+		var missileObject = (GameObject)GameObject.Instantiate (missilePrefab, start, Quaternion.identity);
+		var layerName = "Missile";
 		missileObject.layer = LayerMask.NameToLayer(layerName);
 
 		var missile = missileObject.GetComponent<Missile> ();
 		missile.Shoot (start, dest);
+	}
+
+	void OnReceiveShotMissile(byte[] data)
+	{
+		var packetData = new ShotMissilePacket(data);
+		var packet = packetData.GetPacket();
+		CreateMissileByEnemy(packet.from, packet.dest);
+	}
+
+	public void CreateMissileByEnemy(Vector3 start, Vector3 dest)
+	{
+		var missileObject = (GameObject)GameObject.Instantiate(missilePrefab, start, Quaternion.identity);
+		var layerName = "EnemyMissile";
+		missileObject.layer = LayerMask.NameToLayer(layerName);
+
+		var missile = missileObject.GetComponent<Missile>();
+		missile.Shoot(start, dest);
 	}
 
 	public Vector3 GetMyPosition()

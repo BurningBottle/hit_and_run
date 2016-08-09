@@ -14,6 +14,10 @@ public class HitState : AbstractPlayerState
 	{
 		player.PlayAnimation ("Damaged(loop)");
 		elapsedFrame = 0.0f;
+
+		var packetData = new HitData();
+		packetData.position = player.transform.position;
+		MyNetworkManager.instance.SendReliable(new HitPacket(packetData));
 	}
 
 	public override void Update ()
