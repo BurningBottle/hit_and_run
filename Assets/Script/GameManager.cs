@@ -181,8 +181,18 @@ public class GameManager : MonoBehaviour
 		winner.GotoState (StateName.Wait);
 		loser.GotoState (StateName.Die);
 
-		yield return new WaitForSeconds (2.5f);
+		yield return new WaitForSeconds (3.0f);
 
 		winner.GotoState (StateName.Victory);
+		GameUIManager.instance.ShowWinMessage (winner == myPlayer);
+	}
+
+	public void SendRestartGame()
+	{
+		var packetData = new RestartGameData ();
+		packetData.playerId = myPlayerIndex;
+		MyNetworkManager.instance.SendReliable (new RestartGamePacket (packetData));
+
+		MyNetworkManager.instance.RestartGame ();
 	}
 }

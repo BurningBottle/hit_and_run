@@ -72,6 +72,7 @@ public class MyNetworkManager : MonoBehaviour
 	{
 		notifierTable.Clear();
 		RegisterReceiveNotifier(PacketId.LoadingComplete, OnGameSceneLoadComplete);
+		RegisterReceiveNotifier (PacketId.RestartGame, OnReceiveRestartGame);
 	}
 
 	public void RegisterReceiveNotifier(PacketId packetId, RecvNotifier notifier)
@@ -189,5 +190,17 @@ public class MyNetworkManager : MonoBehaviour
 	{
 		if(++loadingCompleteCount == 2)
 			GameManager.instance.ReadyToStartGame();
+	}
+
+	void OnReceiveRestartGame(byte[] data)
+	{
+		RestartGame ();
+	}
+
+	public void RestartGame()
+	{
+		loadingCompleteCount = 0;
+		InitReceiveNotifiers ();
+		managerState = State.Connected;
 	}
 }

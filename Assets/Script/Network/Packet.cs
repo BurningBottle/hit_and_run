@@ -48,6 +48,7 @@ public enum PacketId
 	Hit,
 	ShotMissile,
 	GameOver,
+	RestartGame,
 }
 
 public struct PacketHeader
@@ -610,6 +611,79 @@ public class GameOverPacket : IPacket<GameOverData>
 
 	// 게임에서 사용할 패킷 데이터를 획득.
 	public GameOverData GetPacket()
+	{
+		return m_packet;
+	}
+
+	// 송신용 byte[]형 데이터를 획득.
+	public byte[] GetData()
+	{
+		ItemSerializer serializer = new ItemSerializer();
+		serializer.Serialize(m_packet);
+
+		return serializer.GetSerializedData();
+	}
+}
+
+public struct RestartGameData
+{
+	public int playerId;
+}
+
+public class RestartGamePacket : IPacket<RestartGameData>
+{
+	class ItemSerializer : Serializer
+	{
+		//
+		public bool Serialize(RestartGameData packet)
+		{
+			bool ret = true;
+			ret &= Serialize(packet.playerId);
+
+			return ret;
+		}
+
+		//
+		public bool Deserialize(ref RestartGameData element)
+		{
+			if (GetDataSize() == 0)
+			{
+				// 데이터가 설정되어 있지 않습니다.
+				return false;
+			}
+
+			bool ret = true;
+			ret &= Deserialize(ref element.playerId);
+
+			return ret;
+		}
+	}
+
+	// 패킷 데이터의 실체.
+	RestartGameData m_packet;
+
+	// 패킷 데이터를 시리얼라이즈 하는 생성자.
+	public RestartGamePacket(RestartGameData data)
+	{
+		m_packet = data;
+	}
+
+	// 바이너리 데이터를 패킷 데이터로 디시리얼라이즈 하는 생성자. 
+	public RestartGamePacket(byte[] data)
+	{
+		ItemSerializer serializer = new ItemSerializer();
+
+		serializer.SetDeserializedData(data);
+		serializer.Deserialize(ref m_packet);
+	}
+
+	public PacketId GetPacketId()
+	{
+		return PacketId.RestartGame;
+	}
+
+	// 게임에서 사용할 패킷 데이터를 획득.
+	public RestartGameData GetPacket()
 	{
 		return m_packet;
 	}
