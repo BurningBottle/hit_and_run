@@ -47,9 +47,12 @@ public abstract class AbstractPlayerFsm : MonoBehaviour
 		navMeshAgent = GetComponent<NavMeshAgent>();
 		navMeshAgent.speed = MyConst.playerMoveSpeed;
 
-		SetHp (MyConst.playerMaxHp);
-
 		InitState ();
+	}
+
+	void Start()
+	{
+		SetHp (MyConst.playerMaxHp);
 	}
 
 	protected virtual void SetHp(int hp)
