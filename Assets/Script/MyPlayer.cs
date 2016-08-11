@@ -19,6 +19,6 @@ public class MyPlayer : AbstractPlayerFsm
 	protected override void SetHp (int hp)
 	{
 		base.SetHp (hp);
-		GameUIManager.instance.SetHp (hp);
+		GameUIManager.instance.SetHp (this.hp);
 	}
 }

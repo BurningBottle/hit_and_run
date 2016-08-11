@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 	public GameObject playerA;
 	public GameObject playerB;
 	public GameObject missilePrefab;
-	public GameObject virtualStick;
+	public VirtualJoystickRegion virtualStick;
 	public BlockManager[] blockManagers;
 
 	[HideInInspector]
@@ -27,9 +27,11 @@ public class GameManager : MonoBehaviour
 	{
 		GameManager.instance = this;
 		isGameOver = false;
+		virtualStick.DisableJoystick ();
 
 		MyNetworkManager.instance.RegisterReceiveNotifier(PacketId.GameStart, OnStartGame);
 		MyNetworkManager.instance.RegisterReceiveNotifier(PacketId.ShotMissile, OnReceiveShotMissile);
+		MyNetworkManager.instance.RegisterReceiveNotifier (PacketId.GameOver, OnReceiveGameOver);
 
 		if(MyNetworkManager.instance.isServer)
 		{
@@ -92,7 +94,7 @@ public class GameManager : MonoBehaviour
 		foreach(var blockManager in blockManagers)
 			blockManager.Generate();
 
-		virtualStick.SetActive(true);
+		virtualStick.EnableJoystick ();
 	}
 
 	public void CreateMissileByMe(Vector3 start)
@@ -171,8 +173,7 @@ public class GameManager : MonoBehaviour
 	IEnumerator GameOverRoutine(AbstractPlayerFsm winner, AbstractPlayerFsm loser)
 	{
 		isGameOver = true;
-		VirtualJoystickRegion.VJRnormals = Vector2.zero;
-		virtualStick.SetActive (false);
+		virtualStick.DisableJoystick ();
 
 		foreach (var blockManager in blockManagers)
 			blockManager.StopGeneration ();
