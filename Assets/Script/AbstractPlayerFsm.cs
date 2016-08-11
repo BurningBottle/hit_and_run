@@ -16,6 +16,12 @@ public abstract class AbstractPlayerFsm : MonoBehaviour
 		private set;
 	}
 
+	public int hp 
+	{
+		get;
+		protected set;
+	}
+
 	private Animator animator 
 	{
 		get;
@@ -41,7 +47,19 @@ public abstract class AbstractPlayerFsm : MonoBehaviour
 		navMeshAgent = GetComponent<NavMeshAgent>();
 		navMeshAgent.speed = MyConst.playerMoveSpeed;
 
+		SetHp (MyConst.playerMaxHp);
+
 		InitState ();
+	}
+
+	protected virtual void SetHp(int hp)
+	{
+		this.hp = Mathf.Max(hp, 0);
+	}
+
+	protected virtual void Damage()
+	{
+		SetHp (hp - 1);
 	}
 
 	protected void AddState(AbstractPlayerState state)
@@ -147,9 +165,14 @@ public abstract class AbstractPlayerFsm : MonoBehaviour
 	// By missiles or DamageBlocks, called by SendMessage.
 	void OnHit()
 	{
-		if (IsState (StateName.Hit))
+		if (IsState (StateName.Hit) || IsState(StateName.Die) || GameManager.instance.isGameOver)
 			return;
 
-		GotoState (StateName.Hit);
+		Damage ();
+
+		if (hp == 0 && MyNetworkManager.instance.isServer)
+			GameManager.instance.SendGameOver (this);
+		else
+			GotoState (StateName.Hit);
 	}
 }

@@ -8,6 +8,8 @@ public class RemotePlayer : AbstractPlayerFsm
 		AddState (new RemoteWaitState ());
 		AddState (new RemoteRunState ());
 		AddState (new RemoteHitState ());
+		AddState (new DieState ());
+		AddState (new VictoryState ());
 
 		gameObject.layer = LayerMask.NameToLayer("Enemy");
 		//		GameObject.Destroy(GetComponentInChildren<BlockTrigger> ().gameObject);
@@ -21,7 +23,7 @@ public class RemotePlayer : AbstractPlayerFsm
 
 	void OnRunStart(byte[] data)
 	{
-		if (IsState(StateName.Die))
+		if (IsState(StateName.Die) || GameManager.instance.isGameOver)
 			return;
 
 		var packetData = new RunStartPacket(data);
@@ -33,12 +35,17 @@ public class RemotePlayer : AbstractPlayerFsm
 
 	void OnReceiveHit(byte[] data)
 	{
-		if (IsState(StateName.Die))
+		if (IsState(StateName.Die) || GameManager.instance.isGameOver)
 			return;
 
 		var packetData = new HitPacket(data);
 		transform.position = packetData.GetPacket().position;
 
-		GotoState(StateName.Hit);
+		Damage ();
+
+		if(hp == 0 && MyNetworkManager.instance.isServer)
+			GameManager.instance.SendGameOver (this);
+		else
+			GotoState(StateName.Hit);
 	}
 }

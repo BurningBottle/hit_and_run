@@ -15,6 +15,9 @@ public class WaitState : AbstractPlayerState
 
 	public override void Update ()
 	{
+		if (GameManager.instance.isGameOver)
+			return;
+		
 		if (VirtualJoystickRegion.VJRnormals.magnitude > 0.0f)
 		{
 			var packetData = new RunStartData();

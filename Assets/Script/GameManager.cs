@@ -14,12 +14,20 @@ public class GameManager : MonoBehaviour
 	[HideInInspector]
 	public int myPlayerIndex = 0;
 
+	public bool isGameOver 
+	{
+		get;
+		private set;
+	}
+
 	MyPlayer myPlayer;
 	RemotePlayer enemyPlayer;
 
 	void Awake()
 	{
 		GameManager.instance = this;
+		isGameOver = false;
+
 		MyNetworkManager.instance.RegisterReceiveNotifier(PacketId.GameStart, OnStartGame);
 		MyNetworkManager.instance.RegisterReceiveNotifier(PacketId.ShotMissile, OnReceiveShotMissile);
 
@@ -131,5 +139,49 @@ public class GameManager : MonoBehaviour
 	public Vector3 GetEnemyPosition()
 	{
 		return enemyPlayer.transform.position;
+	}
+
+	public void SendGameOver(AbstractPlayerFsm deadPlayer)
+	{
+		bool myPlayerDead = (deadPlayer == myPlayer);
+		AbstractPlayerFsm winner = myPlayerDead ? (AbstractPlayerFsm)enemyPlayer : (AbstractPlayerFsm)myPlayer;
+		AbstractPlayerFsm loser = myPlayerDead ? (AbstractPlayerFsm)myPlayer : (AbstractPlayerFsm)enemyPlayer;
+
+		var packetData = new GameOverData ();
+		packetData.myPlayerDead = !myPlayerDead;
+		packetData.position = deadPlayer.transform.position;
+		MyNetworkManager.instance.SendReliable (new GameOverPacket (packetData));
+
+		StartCoroutine (GameOverRoutine (winner, loser));
+	}
+
+	void OnReceiveGameOver(byte[] data)
+	{
+		var packetData = new GameOverPacket (data);
+		var packet = packetData.GetPacket ();
+		AbstractPlayerFsm winner = packet.myPlayerDead ? (AbstractPlayerFsm)enemyPlayer : (AbstractPlayerFsm)myPlayer;
+		AbstractPlayerFsm loser = packet.myPlayerDead ? (AbstractPlayerFsm)myPlayer : (AbstractPlayerFsm)enemyPlayer;
+
+		if (!packet.myPlayerDead)
+			loser.transform.position = packet.position;
+
+		StartCoroutine (GameOverRoutine (winner, loser));
+	}
+
+	IEnumerator GameOverRoutine(AbstractPlayerFsm winner, AbstractPlayerFsm loser)
+	{
+		isGameOver = true;
+		VirtualJoystickRegion.VJRnormals = Vector2.zero;
+		virtualStick.SetActive (false);
+
+		foreach (var blockManager in blockManagers)
+			blockManager.StopGeneration ();
+
+		winner.GotoState (StateName.Wait);
+		loser.GotoState (StateName.Die);
+
+		yield return new WaitForSeconds (1.0f);
+
+		winner.GotoState (StateName.Victory);
 	}
 }
