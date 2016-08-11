@@ -1602,7 +1602,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &356533916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1777,7 +1777,7 @@ MonoBehaviour:
   playerB: {fileID: 1166000663}
   missilePrefab: {fileID: 1000012460756370, guid: cf85d2c1cc46f49bda93c7f8bf2ea3a6,
     type: 2}
-  virtualStick: {fileID: 356533914}
+  virtualStick: {fileID: 356533916}
   blockManagers:
   - {fileID: 2034990997}
   - {fileID: 2130055166}
