@@ -181,7 +181,7 @@ public class GameManager : MonoBehaviour
 		winner.GotoState (StateName.Wait);
 		loser.GotoState (StateName.Die);
 
-		yield return new WaitForSeconds (1.0f);
+		yield return new WaitForSeconds (2.5f);
 
 		winner.GotoState (StateName.Victory);
 	}

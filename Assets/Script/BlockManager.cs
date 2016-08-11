@@ -14,6 +14,7 @@ public class BlockManager : MonoBehaviour
 	float unitZ;
 	float previousIndexX = -1.0f;
 	float previousIndexZ = -1.0f;
+	bool generation = true;
 
 	void Start () 
 	{
@@ -24,6 +25,7 @@ public class BlockManager : MonoBehaviour
 
 	public void Generate()
 	{
+		generation = true;
 		generateRoutine = StartCoroutine (GenerateRoutine ());
 	}
 
@@ -31,7 +33,7 @@ public class BlockManager : MonoBehaviour
 	{
 		float indexX, indexZ;
 
-		while (true) 
+		while (generation) 
 		{
 			do 
 			{
@@ -60,10 +62,13 @@ public class BlockManager : MonoBehaviour
 
 	public void StopGeneration()
 	{
-		if (generateRoutine != null) 
-		{
-			StopCoroutine (generateRoutine);
-			generateRoutine = null;
-		}
+		generation = false;
+		generateRoutine = null;
+//		if (generateRoutine != null) 
+//		{
+//			StopCoroutine (generateRoutine);
+//			StopCoroutine(GenerateRoutine());
+//			generateRoutine = null;
+//		} 
 	}
 }
