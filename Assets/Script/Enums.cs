@@ -15,9 +15,9 @@ public enum StateName
 public static class MyConst
 {
 	public const float playerMoveSpeed = 3.0f;
-	public const int playerMaxHp = 5;
+	public const int playerMaxHp = 10;
 
-	public const float blockFallTime = 0.7f;
+	public const float blockFallTime = 0.8f;
 	public const float blockCreationInterval = 0.4f;
 
 	public const float missileBlockLife = 3.0f;
