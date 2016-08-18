@@ -17,6 +17,10 @@ public class RadialBlur : MonoBehaviour
 			screenMaterial.SetFloat("_BlurWidth", blurWidth);
 			Graphics.Blit(source, dest, screenMaterial);
 		}
+		else
+		{
+			Graphics.Blit(source, dest);
+		}
 	}
 
 	void Update()
