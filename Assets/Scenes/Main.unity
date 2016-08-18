@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44692534, g: 0.49678725, b: 0.57508564, a: 1}
+  m_IndirectSpecularColor: {r: 0.44692492, g: 0.4967869, b: 0.57508546, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -1781,6 +1781,7 @@ MonoBehaviour:
   blockManagers:
   - {fileID: 2034990997}
   - {fileID: 2130055166}
+  radialBlur: {fileID: 1838879672}
   myPlayerIndex: 0
 --- !u!4 &395010188
 Transform:
@@ -8555,6 +8556,7 @@ GameObject:
   - 92: {fileID: 1838879669}
   - 124: {fileID: 1838879668}
   - 81: {fileID: 1838879667}
+  - 114: {fileID: 1838879672}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -8630,6 +8632,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &1838879672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1838879666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21b99bdf384d63c4eaa4ce6fd9a3605b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rbShader: {fileID: 4800000, guid: 82f11246b021bf146af090558ea27e30, type: 3}
+  screenMaterial: {fileID: 2100000, guid: 86fcbc86d13e9fc40841bebf243469dd, type: 2}
 --- !u!1 &1864672787
 GameObject:
   m_ObjectHideFlags: 0

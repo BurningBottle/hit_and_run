@@ -14,6 +14,7 @@ public class HitState : AbstractPlayerState
 	{
 		player.PlayAnimation ("Damaged(loop)");
 		elapsedFrame = 0.0f;
+		GameManager.instance.radialBlur.Show();
 
 		var packetData = new HitData();
 		packetData.position = player.transform.position;

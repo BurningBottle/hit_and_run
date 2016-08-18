@@ -70,6 +70,7 @@
     <Compile Include="Assets\Script\DamageBlock.cs" />
     <Compile Include="Assets\Script\Enums.cs" />
     <Compile Include="Assets\Script\GameManager.cs" />
+    <Compile Include="Assets\Script\GameUIManager.cs" />
     <Compile Include="Assets\Script\LobbyUIManager.cs" />
     <Compile Include="Assets\Script\Missile.cs" />
     <Compile Include="Assets\Script\MissileBlock.cs" />
@@ -80,12 +81,15 @@
     <Compile Include="Assets\Script\Network\PacketQueue.cs" />
     <Compile Include="Assets\Script\Network\Serializer.cs" />
     <Compile Include="Assets\Script\Network\TransportTcp.cs" />
+    <Compile Include="Assets\Script\PlayerStates\DieState.cs" />
     <Compile Include="Assets\Script\PlayerStates\HitState.cs" />
     <Compile Include="Assets\Script\PlayerStates\RemoteHitState.cs" />
     <Compile Include="Assets\Script\PlayerStates\RemoteRunState.cs" />
     <Compile Include="Assets\Script\PlayerStates\RemoteWaitState.cs" />
     <Compile Include="Assets\Script\PlayerStates\RunState.cs" />
+    <Compile Include="Assets\Script\PlayerStates\VictoryState.cs" />
     <Compile Include="Assets\Script\PlayerStates\WaitState.cs" />
+    <Compile Include="Assets\Script\RadialBlur.cs" />
     <Compile Include="Assets\Script\RemotePlayer.cs" />
     <Compile Include="Assets\Script\TestObject.cs" />
     <Compile Include="Assets\Script\VirtualJoystickRegion.cs" />
@@ -105,6 +109,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\README_SD_UnityChan.txt" />
+    <None Include="Assets\Shader\RadialBlur.shader" />
     <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_akarami_blend.shader" />
     <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_eye.shader" />
     <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_eye_blend.shader" />

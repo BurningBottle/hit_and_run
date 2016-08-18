@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 	public GameObject missilePrefab;
 	public VirtualJoystickRegion virtualStick;
 	public BlockManager[] blockManagers;
+	public RadialBlur radialBlur;
 
 	[HideInInspector]
 	public int myPlayerIndex = 0;
