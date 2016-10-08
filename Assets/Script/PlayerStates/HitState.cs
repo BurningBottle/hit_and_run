@@ -16,6 +16,10 @@ public class HitState : AbstractPlayerState
 		elapsedFrame = 0.0f;
 		GameManager.instance.radialBlur.Show();
 
+		var hitFxPosition = player.transform.position;
+		hitFxPosition.y += 0.8f;
+		GameManager.instance.CreateHitFx(hitFxPosition);
+
 		var packetData = new HitData();
 		packetData.position = player.transform.position;
 		MyNetworkManager.instance.SendReliable(new HitPacket(packetData));

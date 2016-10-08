@@ -72,7 +72,7 @@ Material:
     m_Floats:
     - first:
         name: _BlurStrength
-      second: 0.039067496
+      second: 0.020847961
     - first:
         name: _BlurWidth
       second: 0.8

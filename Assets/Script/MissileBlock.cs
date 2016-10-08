@@ -7,6 +7,7 @@ public class MissileBlock : MonoBehaviour
 	public Transform marker;
 
 	float elapsedFrame = 0.0f;
+	float rotationElapsedFrame = 0.0f;
 	Vector3 originMarkerScale;
 	Vector3 originPosition;
 	Vector3 destPosition;
@@ -28,6 +29,8 @@ public class MissileBlock : MonoBehaviour
 		{
 			float t = Mathf.Min (1.0f, elapsedFrame / MyConst.blockFallTime);
 			transform.position = Vector3.Lerp (originPosition, destPosition, t);
+			rotationElapsedFrame += Time.deltaTime * 150.0f;
+			transform.localRotation = Quaternion.Euler(0.0f, rotationElapsedFrame, 0.0f);
 			marker.localScale = Vector3.Lerp (originMarkerScale, Vector3.one * 0.2f, t);
 		} 
 		else 

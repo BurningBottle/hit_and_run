@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
 	public VirtualJoystickRegion virtualStick;
 	public BlockManager[] blockManagers;
 	public RadialBlur radialBlur;
+	public GameObject hitFxPrefab;
 
 	[HideInInspector]
 	public int myPlayerIndex = 0;
@@ -195,5 +196,10 @@ public class GameManager : MonoBehaviour
 		MyNetworkManager.instance.SendReliable (new RestartGamePacket (packetData));
 
 		MyNetworkManager.instance.RestartGame ();
+	}
+
+	public void CreateHitFx(Vector3 position)
+	{
+		GameObject.Instantiate(hitFxPrefab, position, Quaternion.identity);
 	}
 }

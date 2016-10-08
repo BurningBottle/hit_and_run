@@ -56,6 +56,7 @@ public class MyNetworkManager : MonoBehaviour
 	{
 		MyNetworkManager.instance = this;
 		GameObject.DontDestroyOnLoad(gameObject);
+		Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
 		transTcp.RegisterEventHandler(OnNetworkConnect);
 		port = 25331;

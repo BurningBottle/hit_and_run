@@ -14,6 +14,10 @@ public class RemoteHitState : AbstractPlayerState
 	{
 		player.PlayAnimation("Damaged(loop)");
 		elapsedFrame = 0.0f;
+
+		var hitFxPosition = player.transform.position;
+		hitFxPosition.y += 0.8f;
+		GameManager.instance.CreateHitFx(hitFxPosition);
 	}
 
 	public override void Update()
