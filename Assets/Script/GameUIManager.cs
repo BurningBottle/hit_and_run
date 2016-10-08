@@ -7,8 +7,9 @@ public class GameUIManager : MonoBehaviour
 	public static GameUIManager instance;
 
 	public Text myHpText;
-	public Text winMessageText;
 	public Button restartButton;
+	public Image victoryImage;
+	public Image loseImage;
 
 	void Awake()
 	{
@@ -28,11 +29,10 @@ public class GameUIManager : MonoBehaviour
 	public void ShowWinMessage(bool winnerIsMe)
 	{
 		restartButton.gameObject.SetActive (MyNetworkManager.instance.isServer);
-		winMessageText.gameObject.SetActive (true);
 
 		if (winnerIsMe)
-			winMessageText.text = "YOU WIN!!";
+			victoryImage.gameObject.SetActive(true);
 		else
-			winMessageText.text = "YOU LOSE..";
+			loseImage.gameObject.SetActive(true);
 	}
 }

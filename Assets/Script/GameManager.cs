@@ -156,7 +156,7 @@ public class GameManager : MonoBehaviour
 		packetData.position = deadPlayer.transform.position;
 		MyNetworkManager.instance.SendReliable (new GameOverPacket (packetData));
 
-		StartCoroutine (GameOverRoutine (winner, loser));
+		StartGameOverRoutine(winner, loser);
 	}
 
 	void OnReceiveGameOver(byte[] data)
@@ -169,24 +169,43 @@ public class GameManager : MonoBehaviour
 		if (!packet.myPlayerDead)
 			loser.transform.position = packet.position;
 
-		StartCoroutine (GameOverRoutine (winner, loser));
+		StartGameOverRoutine(winner, loser);
 	}
 
-	IEnumerator GameOverRoutine(AbstractPlayerFsm winner, AbstractPlayerFsm loser)
+	void StartGameOverRoutine(AbstractPlayerFsm winner, AbstractPlayerFsm loser)
 	{
 		isGameOver = true;
-		virtualStick.DisableJoystick ();
+		virtualStick.DisableJoystick();
 
 		foreach (var blockManager in blockManagers)
-			blockManager.StopGeneration ();
+			blockManager.StopGeneration();
 
-		winner.GotoState (StateName.Wait);
-		loser.GotoState (StateName.Die);
+		if (winner == myPlayer)
+			StartCoroutine(VictoryRoutine(winner, loser));
+		else
+			StartCoroutine(LoseRoutine(winner, loser));
+	}
+
+	IEnumerator VictoryRoutine(AbstractPlayerFsm winner, AbstractPlayerFsm loser)
+	{
+		winner.GotoState(StateName.Wait);
+		loser.GotoState(StateName.Die);
 
 		yield return new WaitForSeconds (3.0f);
 
 		winner.GotoState (StateName.Victory);
 		GameUIManager.instance.ShowWinMessage (winner == myPlayer);
+	}
+
+	IEnumerator LoseRoutine(AbstractPlayerFsm winner, AbstractPlayerFsm loser)
+	{
+		winner.GotoState(StateName.Wait);
+		loser.GotoState(StateName.Die);
+
+		yield return new WaitForSeconds(3.0f);
+
+		winner.GotoState(StateName.Victory);
+		GameUIManager.instance.ShowWinMessage(winner == myPlayer);
 	}
 
 	public void SendRestartGame()
