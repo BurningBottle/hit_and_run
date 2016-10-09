@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
 		isGameOver = false;
 		Time.timeScale = 1.0f;
 		virtualStick.DisableJoystick ();
-//		gameObject.AddComponent<MyNetworkManager> ();
+		gameObject.AddComponent<MyNetworkManager> ();
 
 		MyNetworkManager.instance.RegisterReceiveNotifier(PacketId.GameStart, OnStartGame);
 		MyNetworkManager.instance.RegisterReceiveNotifier(PacketId.ShotMissile, OnReceiveShotMissile);
