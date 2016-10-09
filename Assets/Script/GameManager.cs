@@ -29,7 +29,9 @@ public class GameManager : MonoBehaviour
 	{
 		GameManager.instance = this;
 		isGameOver = false;
+		Time.timeScale = 1.0f;
 		virtualStick.DisableJoystick ();
+//		gameObject.AddComponent<MyNetworkManager> ();
 
 		MyNetworkManager.instance.RegisterReceiveNotifier(PacketId.GameStart, OnStartGame);
 		MyNetworkManager.instance.RegisterReceiveNotifier(PacketId.ShotMissile, OnReceiveShotMissile);
@@ -194,7 +196,31 @@ public class GameManager : MonoBehaviour
 		yield return new WaitForSeconds (3.0f);
 
 		winner.GotoState (StateName.Victory);
-		GameUIManager.instance.ShowWinMessage (winner == myPlayer);
+
+		var cameraPosition = winner.transform.position + winner.transform.forward * 3.0f;
+		cameraPosition.y += 0.6f;
+		var cameraRotation = Quaternion.LookRotation (winner.transform.forward * -1.0f);
+
+		Time.timeScale = 0.1f;
+		var originCameraPosition = Camera.main.transform.position;
+		var originCameraRotation = Camera.main.transform.rotation;
+
+		float elapsed = 0.0f;
+		float t = 0.0f;
+		while (elapsed < 1.7f) 
+		{
+			elapsed += Time.unscaledDeltaTime;
+			t = elapsed / 1.7f;
+			Camera.main.transform.position = Vector3.Lerp (originCameraPosition, cameraPosition, t * 1.5f);
+			Camera.main.transform.rotation = Quaternion.Slerp (originCameraRotation, cameraRotation, t);
+
+			yield return null;
+		}
+
+		yield return new WaitForSeconds (0.05f);
+
+		Time.timeScale = 1.0f;
+		GameUIManager.instance.ShowWinMessage (true);
 	}
 
 	IEnumerator LoseRoutine(AbstractPlayerFsm winner, AbstractPlayerFsm loser)
@@ -202,10 +228,25 @@ public class GameManager : MonoBehaviour
 		winner.GotoState(StateName.Wait);
 		loser.GotoState(StateName.Die);
 
-		yield return new WaitForSeconds(3.0f);
+		var direction = (Camera.main.transform.position - loser.transform.position).normalized;
+		var cameraPosition = loser.transform.position + direction * 4.0f;
+		var originCameraPosition = Camera.main.transform.position;
+
+		float elapsed = 0.0f;
+		float t = 0.0f;
+		while (elapsed < 1.7f) 
+		{
+			elapsed += Time.deltaTime;
+			t = elapsed / 1.7f;
+			Camera.main.transform.position = Vector3.Lerp (originCameraPosition, cameraPosition, t);
+
+			yield return null;
+		}
+
+		yield return new WaitForSeconds(3.0f - 1.7f);
 
 		winner.GotoState(StateName.Victory);
-		GameUIManager.instance.ShowWinMessage(winner == myPlayer);
+		GameUIManager.instance.ShowWinMessage(false);
 	}
 
 	public void SendRestartGame()
